@@ -1,0 +1,41 @@
+using AndroidTests.Base;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.Android;
+using Serilog;
+
+namespace AndroidTests.Pages;
+
+public class MainPage : BasePage
+{
+    private readonly AndroidDriver _driver;
+
+    public MainPage(AndroidDriver driver) : base(driver)
+    {
+        _driver = driver;
+    }
+
+    public bool WaitForPageToLoad()
+    {
+        Log.Information("Waiting for main page to load");
+        
+        return IsDisplayed(By.XPath("//android.view.View[@content-desc=\"Создать заявку\"]"));
+    }
+
+    public void ClickToAllowNotifications()
+    {
+        Log.Information("Clicking button to allow notifications");
+        
+        Click(By.XPath("//android.widget.Button[@resource-id=\"com.android.permissioncontroller:id/permission_allow_button\"]"));
+        
+        Log.Information("Click is successfully");
+    }
+
+    public void ClickToCreateRequest()
+    {
+        Log.Information("Clicking to create request");
+        
+        Click(By.XPath("//android.view.View[@content-desc=\"Создать заявку\"]"));
+        
+        Log.Information("Click is succefully");
+    }
+}
