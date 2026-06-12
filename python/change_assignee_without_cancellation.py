@@ -5,7 +5,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# ПОЛНОСТЬЮ СТАБИЛЬНЫЕ ЛОКАТОРЫ (Точечное попадание в текст элементов)
 LOCATORS = {
     "three_dots": '//android.view.View[@resource-id="app"]/android.view.View/android.view.View[1]/android.view.View[3]/android.view.View[1]/android.view.View[2]/android.widget.Button',
     "change_assignee": '//android.widget.Button[@text="Сменить исполнителя"]',

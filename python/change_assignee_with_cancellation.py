@@ -5,7 +5,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# ИДЕАЛЬНО ТОЧНЫЕ ЛОКАТОРЫ (Бьют прямо в текст элементов)
 LOCATORS = {
     "three_dots": '//android.view.View[@resource-id="app"]/android.view.View/android.view.View[1]/android.view.View[3]/android.view.View[1]/android.view.View[2]/android.widget.Button',
     "change_assignee": '//android.widget.Button[@text="Сменить исполнителя"]',
@@ -32,7 +31,7 @@ options.set_capability('automationName', 'UiAutomator2')
 options.set_capability('deviceName', 'emulator-5554')
 options.set_capability('appPackage', 'udp.reeng.app')
 options.set_capability('appActivity', 'udp.reeng.app.MainActivity')
-options.set_capability('noReset', True) 
+options.set_capability('noReset', True)
 
 print("Запуск сценария: Смена исполнителя С АННУЛИРОВАНИЕМ")
 driver = webdriver.Remote('http://localhost:4723', options=options)
@@ -46,7 +45,7 @@ try:
             AppiumBy.XPATH, '(//android.view.View[@content-desc="Заявки"])[2]'
         ))
     )
-    
+
     print("Кликаем по вкладке 'Заявки'...")
     button_application.click()
     time.sleep(3)
