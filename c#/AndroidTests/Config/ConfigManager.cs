@@ -6,13 +6,10 @@ namespace AndroidTests.Config;
 
 public static class ConfigManager
 {
-    public static IConfiguration Configuration { get; }
-
-    static ConfigManager()
-    {
-        Configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: false)
-            .Build();
-    }
+    public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+        .SetBasePath(AppContext.BaseDirectory)
+        .AddJsonFile("appsettings.json", optional: false)
+        .AddJsonFile("appsettings.local.json", optional: true)
+        .AddEnvironmentVariables()
+        .Build();
 }

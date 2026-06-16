@@ -7,9 +7,10 @@ namespace AndroidTests.Base;
 
 public class BaseTest
 {
+    #pragma warning disable NUnit1032
     protected AndroidDriver? Driver;
+    #pragma warning restore NUnit1032
 
-    [OneTimeSetUp]
     public void GlobalSetup()
     {
         LoggerManager.Configure();
@@ -19,11 +20,17 @@ public class BaseTest
         Driver = DriverFactory.CreateDriver();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+    }
+
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
         Log.Information("Test run finished");
         Driver?.Quit();
         Driver?.Dispose();
+        Driver = null;
     }
 }

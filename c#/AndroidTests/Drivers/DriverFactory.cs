@@ -11,15 +11,16 @@ public static class DriverFactory
 {
     public static AndroidDriver CreateDriver()
     {
-        var options = new AppiumOptions();
         var settings = ConfigManager.Configuration
-            .GetSection(nameof(AppiumSettings))
-            .Get<AppiumSettings>();
-        
+                           .GetSection(nameof(AppiumSettings))
+                           .Get<AppiumSettings>() 
+                       ?? throw new InvalidOperationException("AppiumSettings not found in config");
+    
+        var options = new AppiumOptions();
         options.PlatformName = settings.PlatformName;
         options.AutomationName = settings.AutomationName;
         options.DeviceName = settings.DeviceName;
-        
+    
         options.AddAdditionalAppiumOption("appPackage", settings.AppPackage);
         options.AddAdditionalAppiumOption("appActivity", settings.AppActivity);
         options.AddAdditionalAppiumOption("newCommandTimeout", 60);

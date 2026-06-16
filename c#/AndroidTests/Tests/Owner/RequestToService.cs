@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AndroidTests.Tests.Owner;
 
-[TestFixture, Order(1)]
+[TestFixture, Order(2)]
 public class RequestToService : OwnerBaseTest
 {
     private EquipmentPage _equipmentPage = null!;
@@ -20,21 +20,9 @@ public class RequestToService : OwnerBaseTest
     }
 
     [Test]
-    public void CreateRequestToOwnerServiceTest()
+    public void CreateRequestToServiceTest()
     {
-        _mainPage.ClickToAllowNotifications();
-        _mainPage.WaitForPageToLoad();
-        _mainPage.ClickToCreateRequest();
-        _equipmentPage.WaitForPageToLoad();
-        _equipmentPage.ClickToCommercialEquipment();
-        _equipmentPage.ClickToCreateRequest();
-        _equipmentPage.AddPhoto(
-            ConfigManager.Configuration.GetSection(nameof(EmulatorSettings)).Get<EmulatorSettings>()!.TestPhotoPath);
-        _equipmentPage.ClickToEditType();
-        _equipmentPage.SelectionFault();
-        _equipmentPage.ClickToPriority();
-        _equipmentPage.SelectionPlanned();
-        _equipmentPage.TypeDescription();
+        FillBaseRequestForm(_equipmentPage, _mainPage);
         _equipmentPage.ClickToPerformer();
         _equipmentPage.ClickToPartners();
         _equipmentPage.SelectionService();

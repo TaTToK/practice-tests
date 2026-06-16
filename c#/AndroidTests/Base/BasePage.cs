@@ -27,23 +27,14 @@ public abstract class BasePage
 
     protected void Click(By by)
     {
-        var locator = by;
-        
         try
         {
-            Log.Information(
-                "Trying to click element {Locator}",
-                locator);
-            
-            WaitForElement(locator).Click();
+            Log.Information("Trying to click element {Locator}", by);
+            WaitForElementToBeClickable(by).Click();
         }
         catch (Exception e)
         {
-            Log.Error(
-                e,
-                "Failed to click element {Locator}",
-                locator);
-            
+            Log.Error(e, "Failed to click element {Locator}", by);
             throw;
         }
     }
@@ -96,16 +87,18 @@ public abstract class BasePage
         }
         catch (NoSuchElementException) { }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 8; i++)
         {
             var finger = new PointerInputDevice(PointerKind.Touch, "finger");
             var sequence = new ActionSequence(finger);
-            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 1200, TimeSpan.Zero));
+        
+            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 900, TimeSpan.Zero));
             sequence.AddAction(finger.CreatePointerDown(MouseButton.Left));
-            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 600, TimeSpan.FromMilliseconds(500)));
+            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 700, TimeSpan.FromMilliseconds(400)));
             sequence.AddAction(finger.CreatePointerUp(MouseButton.Left));
             Driver.PerformActions(new List<ActionSequence> { sequence });
-            Thread.Sleep(500);
+        
+            Thread.Sleep(300);
 
             try
             {
@@ -121,5 +114,50 @@ public abstract class BasePage
     {
         var element = MobileBy.AndroidUIAutomator(mobile);
         Click(element);
+    }
+
+    protected bool WaitForElementToDisappear(By by, int timeoutSeconds = 10)
+    {
+        var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+    
+        return wait.Until(d =>
+        {
+            try
+            {
+                return !d.FindElement(by).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return true;
+            }
+        });
+    }
+    
+    protected IWebElement WaitForElementToBeClickable(By by, int timeoutSeconds = 10)
+    {
+        var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+    
+        return wait.Until(d =>
+        {
+            var element = d.FindElement(by);
+            return element.Enabled && element.Displayed ? element : null;
+        });
+    }
+    
+    protected bool WaitForText(By by, string text, int timeoutSeconds = 10)
+    {
+        var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+    
+        return wait.Until(d =>
+        {
+            try
+            {
+                return d.FindElement(by).Text.Contains(text);
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        });
     }
 }

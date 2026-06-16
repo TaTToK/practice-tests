@@ -9,8 +9,9 @@ namespace AndroidTests.Utils;
 public class EmulatorManager
 {
     private static readonly EmulatorSettings Settings = ConfigManager.Configuration
-        .GetSection(nameof(EmulatorSettings))
-        .Get<EmulatorSettings>();
+                                                            .GetSection(nameof(EmulatorSettings))
+                                                            .Get<EmulatorSettings>()
+                                                        ?? throw new InvalidOperationException("EmulatorSettings not found in config");
     
     public static void Start()
     {

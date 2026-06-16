@@ -36,16 +36,14 @@ public class EquipmentPage : BasePage
     public void AddPhoto(string localPhotoPath)
     {
         EmulatorManager.PushPhoto(localPhotoPath);
-        
-        Click(By.XPath("//android.view.View[@resource-id=\"reka-popover-trigger-v-52\"]"));
-        
-        Click(By.XPath("//android.view.View[@text=\"Выбрать фото\"]"));
-        
-        Click(By.XPath("//android.widget.TextView[@resource-id=\"com.google.android.apps.photos:id/title\" and @text=\"Pictures\"]"));
-        
-        Click(By.XPath("//android.widget.ImageView[@content-desc=\"Photo taken on Jun 6, 2026 5:02 AM\"]"));
-        
-        Click(By.XPath("//android.widget.Button[@content-desc=\"Done\"]"));
+        Click(By.XPath("//android.widget.TextView[@text='Нажмите, чтобы добавить фотографии поломки']"));
+        Click(By.XPath("//android.view.View[@text='Выбрать фото']"));
+        Click(By.XPath("//android.widget.TextView[@resource-id='com.google.android.apps.photos:id/title' and @text='Pictures']"));
+        Click(By.XPath("//android.widget.ImageView[@content-desc='Photo taken on Jun 6, 2026 5:02 AM']"));
+        Click(By.XPath("//android.widget.Button[@content-desc='Done']"));
+    
+        WaitForElement(By.XPath("//android.widget.TextView[@text='Нажмите, чтобы добавить фотографии поломки']"), 
+            timeoutSeconds: 1);
     }
     
     public void ClickToCreateRequest()
@@ -108,7 +106,7 @@ public class EquipmentPage : BasePage
 
         var performer = ScrollForFindInDialog("Исполнитель*");
         
-        ClickUi("new UiSelector().className(\"android.widget.Button\").instance(5)");
+        ClickUi("new UiSelector().text(\"Исполнитель*\")");
         
         Log.Information("Click was successful");
     }
@@ -117,7 +115,7 @@ public class EquipmentPage : BasePage
     {
         Log.Information("Clicking to partners");
         
-        ClickUi("new UiSelector().resourceId(\"reka-tabs-v-62-trigger-vendor\")");
+        ClickUi("new UiSelector().text(\"Партнёры\")");
         
         Log.Information("Click was successful");
     }
@@ -126,14 +124,14 @@ public class EquipmentPage : BasePage
     {
         Log.Information("Selecting service");
         
-        ClickUi("new UiSelector().className(\"android.view.View\").instance(75)");
+        ClickUi("new UiSelector().className(\"android.widget.CheckBox\").textStartsWith(\"ООО \"Мастерская\"\")");
     }
     
     public void SelectionPerformer()
     {
         Log.Information("Selecting performer");
         
-        Click(By.XPath("new UiSelector().className(\"android.view.View\").instance(75)"));
+        Click(By.XPath("//android.widget.CheckBox[@text=\"Петров Петр Специалист собственного сервиса\"]"));
         
         Log.Information("Selecting successful");
     }
