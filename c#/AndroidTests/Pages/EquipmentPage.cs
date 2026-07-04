@@ -104,7 +104,7 @@ public class EquipmentPage : BasePage
     {
         Log.Information("Clicking to performer");
 
-        var performer = ScrollForFindInDialog("Исполнитель*");
+        ScrollForFindInDialogText("Исполнитель*");
         
         ClickUi("new UiSelector().text(\"Исполнитель*\")");
         

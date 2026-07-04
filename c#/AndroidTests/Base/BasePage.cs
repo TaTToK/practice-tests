@@ -79,7 +79,7 @@ public abstract class BasePage
         return element;
     }
     
-    protected IWebElement ScrollForFindInDialog(string text)
+    protected IWebElement ScrollForFindInDialogText(string text)
     {
         try
         {
@@ -108,6 +108,35 @@ public abstract class BasePage
         }
 
         throw new NoSuchElementException($"Element '{text}' not found after scrolling");
+    }
+    
+    protected IWebElement ScrollForFindInDialogElement(By by)
+    {
+        try
+        {
+            return Driver.FindElement(by);
+        }
+        catch (NoSuchElementException) { }
+
+        for (int i = 0; i < 8; i++)
+        {
+            var finger = new PointerInputDevice(PointerKind.Touch, "finger");
+            var sequence = new ActionSequence(finger);
+            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 900, TimeSpan.Zero));
+            sequence.AddAction(finger.CreatePointerDown(MouseButton.Left));
+            sequence.AddAction(finger.CreatePointerMove(CoordinateOrigin.Viewport, 540, 700, TimeSpan.FromMilliseconds(400)));
+            sequence.AddAction(finger.CreatePointerUp(MouseButton.Left));
+            Driver.PerformActions(new List<ActionSequence> { sequence });
+            Thread.Sleep(300);
+
+            try
+            {
+                return Driver.FindElement(by);
+            }
+            catch (NoSuchElementException) { }
+        }
+
+        throw new NoSuchElementException($"Element not found after scrolling");
     }
 
     public void ClickUi(string mobile)
